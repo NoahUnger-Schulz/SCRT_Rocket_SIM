@@ -80,7 +80,7 @@ RK1=Butcher_Tableaux([[0]],[0],[1])
 
 #run code
 U=np.array(integrate([U0,U0],FE,F,T,dt))
-UBE=np.array(integrate([U0,U0],RK1,F,T,dt))
+UBE=np.array(integrate([U0,U0],RK4,F,T,dt))
 UTrap=np.array(integrate([U0,U0],Trap,F,T,dt))
 
 # plotting

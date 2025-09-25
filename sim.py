@@ -76,10 +76,11 @@ RK4=Butcher_Tableaux([[0   , 0,0,0],\
                       [ 1/3, 0,0,0],\
                       [-1/3, 1,0,0],\
                       [1   ,-1,1,0]],[0,1/3,2/3,1],[1/8,3/8,3/8,1/8])
+RK1=Butcher_Tableaux([[0]],[0],[1])
 
 #run code
 U=np.array(integrate([U0,U0],FE,F,T,dt))
-UBE=np.array(integrate([U0,U0],RK4,F,T,dt))
+UBE=np.array(integrate([U0,U0],RK1,F,T,dt))
 UTrap=np.array(integrate([U0,U0],Trap,F,T,dt))
 
 # plotting

@@ -16,14 +16,14 @@ def Butcher_Tableaux(a,c,b,N=20,Err=.00001):
         if sum(a[i][i+1:])!=0 :
             raise Exception("tableaux a has values above the diagonal")
         print([[j,a[i][j]] for j in range(i)])
-        csum[i]=lambda f,t,dt,u,asum=csum[i-1]:sum([a[i][j]*k[j](f,t,dt,u,asum) for j in range(i)])
+        csum[i]=lambda f,t,dt,u:sum([a[i][j]*k[j](f,t,dt,u) for j in range(i)])
         # if a[i][i]!=0:#check if implicit
         #     k[i]=lambda f,t,dt,u: iterate(lambda un:f(t+c[i]*dt,u[-1]
         #         +dt*(csum[i](f,t,dt,u)+a[i][i]*un)),f(t,u[-1]))
         # else:#it's explicit :)
-        k[i]=lambda f,t,dt,u,asum: f(t+c[i]*dt,u[-1]+dt*asum(f,t,dt,u))
+        k[i]=lambda f,t,dt,u: f(t+c[i]*dt,u[-1]+dt*csum[i-1](f,t,dt,u))
     return lambda f,t,dt,u:(u[-1]
-            +dt*sum([b[j]*k[j](f,t,dt,u,csum[-1]) for j in range(len(b))]))
+            +dt*sum([b[j]*k[j](f,t,dt,u) for j in range(len(b))]))
 
 #given a function itertate f such that f(f(f(...))) converges find that 
 def iterate(f,guess,iter=20,err=0.00001):

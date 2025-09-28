@@ -87,7 +87,9 @@ def integrate(u0, scheme, f, T, dt):
 def double_step(scheme):
     return lambda f,t,dt,u:scheme(f,t+dt/2,dt/2,u+[scheme(f,t,dt/2,u)])
 
-def integrate_adaptive(u0, scheme, f, T, dt,batch=10,scheme2=None,tol=0.01):
+def integrate_adaptive(u0, scheme, f, T, dt,batch=1,scheme2=None,tol=None):
+    if tol==None:
+        tol=dt/1000
     if scheme2==None:
         scheme2=double_step(scheme)
     u = [u0[0] for i in range(batch+1)]
@@ -95,11 +97,12 @@ def integrate_adaptive(u0, scheme, f, T, dt,batch=10,scheme2=None,tol=0.01):
     print(u)
     while t[-1]<T:
         err=np.linalg.norm(scheme(f,t[-1],dt,u)-scheme2(f,t[-1],dt,u))
+        #err/=np.linalg.norm(scheme(f,t[-1],dt,u))
         if err>tol:
             #print(err,dt,t[-1])
             u=u[:-batch]
             t=t[:-batch]
-            dt/=2.
+            dt/=4.0
         else:
             dt*=1.1
         for i in range(batch):
@@ -155,7 +158,7 @@ RKheun=Butcher_Table2([[0  ,0  ],\
 #run code
 start=[]
 start+=[(time.perf_counter())]
-U,Time=integrate_adaptive([U0,U0],FE,F,T,dt/100)
+U,Time=integrate_adaptive([U0,U0],Heun,F,T,dt/10000)
 start+=[(time.perf_counter())]
 print(start[-1]-start[-2])
 UTrap=np.array(integrate([U0,U0],FE,F,T,dt/100))

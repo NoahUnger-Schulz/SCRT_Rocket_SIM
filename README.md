@@ -8,3 +8,7 @@ Project Goal: improve rocket control loop tuning flow by simulating more flight 
 - Forrest
 - Zane
 - Kai
+
+## Contact
+Please contact direct any inquiries to 
+ungerscn@oregonstate.edu

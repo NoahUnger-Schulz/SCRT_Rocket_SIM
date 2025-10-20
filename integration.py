@@ -4,14 +4,18 @@ import numpy as np
 from math import *
 from utilities import *
 
+
+## TODO please make look good
 def scipyintegrate(u0,scheme,f,T,dt):
-    u=u_0
+    print(u0,'u0')
+    u=u0
     t=[i*dt for i in range(len(u))]
     solution=scheme(lambda t0,u0:f(t0,[u0]) ,t[-1],u[-1],T)   
     while u[-1][0]>0:
         t+=[t[-1]+dt]
+        print(u,'u')
         u+=[scheme(f,t[-1],dt,u)]
-
+    return np.array(u),np.array(t)
 
 
 

@@ -5,7 +5,7 @@ from math import *
 from utilities import *
 from integration import *
 from FDS import *
-
+import scipy
 
 
 
@@ -37,13 +37,13 @@ start+=[(time.perf_counter())]
 U,Time=integrate_adaptive([U0,U0],Heun,F,T,dt/1000)
 start+=[(time.perf_counter())]
 print(start[-1]-start[-2])
-U45=np.array(integrate([U0,U0],FE,F,T,dt/1000))
+U45,Time45=scipyintegrate([U0,U0], scipy.integrate.RK45, F, T, dt)
 start+=[(time.perf_counter())]
 print(start[-1]-start[-2])
 
 # plotting
-plt.plot(dt/1000*np.arange(len(U45)),U45[:,0],label="dt/1000")
-plt.plot(dt/1000*np.arange(len(U45)),U45[:,1],label="dt/1000")
+plt.plot(Time45,U45[:,0],label="dt/1000")
+plt.plot(Time45,U45[:,1],label="dt/1000")
 plt.plot(Time,U[:,0],label="adaptive")
 plt.plot(Time,U[:,1],label="adaptive")
 plt.legend()

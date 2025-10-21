@@ -6,4 +6,4 @@ def test_sanity():
 
 
 def test_runs():
-    sim.run(no_output=True)
+    sim.run(headless=True)

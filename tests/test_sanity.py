@@ -1,9 +1,9 @@
-"""
-A test file for testing that github actions work
-"""
+from simulation import sim
 
 
 def test_sanity():
-    """
-    A test function for testing that github actions work
-    """
+    pass
+
+
+def test_runs():
+    sim.run(no_output=True)

@@ -31,22 +31,31 @@ Accel=lambda t,h,v:(Area*AirDensity(h)*DrafCoeff(h,v)*v**2+Thrust(t))/M+g
 def F(t,u):#the derivative of the state space
     return np.array([u[1],Accel(t,u[0],u[1])])
 
-#run code
-start=[]
-start+=[(time.perf_counter())]
-U,Time=integrate_adaptive([U0,U0],Heun,F,T,dt/1000)
-start+=[(time.perf_counter())]
-print(start[-1]-start[-2])
-U45,Time45=scipyintegrate([U0,U0], scipy.integrate.RK45, F, T, dt)
-start+=[(time.perf_counter())]
-print(start[-1]-start[-2])
 
-# plotting
-plt.plot(Time45,U45[:,0],label="dt/1000")
-plt.plot(Time45,U45[:,1],label="dt/1000")
-plt.plot(Time,U[:,0],label="adaptive")
-plt.plot(Time,U[:,1],label="adaptive")
-plt.legend()
-plt.xlabel("time (s)")
-plt.ylabel("velocity(m/s)/Height(m)")
-plt.show()
+def run(no_output=False):
+    #run code
+    start=[]
+    start+=[(time.perf_counter())]
+    U,Time=integrate_adaptive([U0,U0],Heun,F,T,dt/1000)
+    start+=[(time.perf_counter())]
+    if not no_output:
+        print(start[-1]-start[-2])
+    U45,Time45=scipyintegrate([U0,U0], scipy.integrate.RK45, F, T, dt)
+    start+=[(time.perf_counter())]
+    if not no_output:
+        print(start[-1]-start[-2])
+
+    if not no_output:
+        # plotting
+        plt.plot(Time45,U45[:,0],label="dt/1000")
+        plt.plot(Time45,U45[:,1],label="dt/1000")
+        plt.plot(Time,U[:,0],label="adaptive")
+        plt.plot(Time,U[:,1],label="adaptive")
+        plt.legend()
+        plt.xlabel("time (s)")
+        plt.ylabel("velocity(m/s)/Height(m)")
+        plt.show()
+
+
+if __name__ == '__main__':
+    run()

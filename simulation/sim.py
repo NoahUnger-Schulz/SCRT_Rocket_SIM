@@ -32,14 +32,22 @@ def F(t,u):#the derivative of the state space
     return np.array([u[1],Accel(t,u[0],u[1])])
 
 
+def run_integrate_adaptive(dt):
+    return integrate_adaptive([U0,U0],Heun,F,T,dt)
+
+
+def run_scipy(dt):
+    return scipyintegrate([U0,U0], scipy.integrate.RK45, F, T, dt)
+
+
 def run(headless=False):
     #run code
     start=[]
     start+=[(time.perf_counter())]
-    U,Time=integrate_adaptive([U0,U0],Heun,F,T,dt/1000)
+    U,Time=run_integrate_adaptive(dt/1000)
     start+=[(time.perf_counter())]
     print(start[-1]-start[-2])
-    U45,Time45=scipyintegrate([U0,U0], scipy.integrate.RK45, F, T, dt)
+    U45,Time45=run_scipy(dt)
     start+=[(time.perf_counter())]
     print(start[-1]-start[-2])
 
